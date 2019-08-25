@@ -25,10 +25,10 @@ git-push-to-deploy:
         # Optional: path to the scripts that will run after a push
         #- ./docker/git-push-to-deploy/deploy-script.sh:/home/git-push-to-deploy/deploy-script.sh
     # Optional: git custom identity for automatic commits and git branch to be used
-    #environment:
-    #    - GPTD_GIT_USER_NAME=YourName
-    #    - GPTD_GIT_USER_EMAIL=you@example.com
-    #    - GPTD_GIT_WORKING_BRANCH=production
+    # environment:
+    #     - GPTD_GIT_USER_NAME=YourName
+    #     - GPTD_GIT_USER_EMAIL=you@example.com
+    #     - GPTD_GIT_WORKING_BRANCH=production
     # Local port for git ssh access
     ports:
         - "2222:22"
@@ -82,5 +82,5 @@ To deploy with git to the remote Docker container, we use an SSH tunnel through 
 ## Notes
 
 - Do **not** expose the `2222` SSH port on your server, its access must be restricted to the server itself.
-- This image was primarily designed to work with nginx-related deployment, thus the ownership of the mounted content is set to `www-data` user and group.
+- This image was primarily designed to work with nginx-related deployment, thus the ownership of the mounted content is set to `www-data:www-data`.
 - This image brings together the scripts from [git-push-to-deploy](https://github.com/ntopulos/git-push-to-deploy), and simplifies the overall method by using a git version that allows to push to a none-bare repository.

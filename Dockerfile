@@ -25,8 +25,6 @@ RUN mkdir /home/repository
 WORKDIR /home/repository
 
 # SSHD
-# COPY sshd_config /etc/ssh
-# RUN rc-update add sshd
 # ssh-keygen -A generates all necessary host keys (rsa, dsa, ecdsa, ed25519) at default location.
 RUN mkdir /root/.ssh \
     && chmod 0700 /root/.ssh \
@@ -40,8 +38,6 @@ COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY git /home/git-push-to-deploy
 RUN chmod +x /docker-entrypoint.sh /home/git-push-to-deploy/hooks/* ; \
     chown -R www-data:www-data /home/git-push-to-deploy
-
-USER www-data
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
