@@ -1,0 +1,15 @@
+#!/bin/sh
+
+echo
+echo "Looking for the deploy script..."
+
+# Mount your deploy script to /home/git-push-to-deploy/deploy-script.sh
+deploy_script="/home/git-push-to-deploy/deploy-script.sh"
+
+if [ -e $deploy_script ]
+then
+    echo "Deploy script found, running..."
+    . $deploy_script
+else
+    echo "No deploy script"
+fi

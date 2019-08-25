@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Branch that should be used for deployments
+# push from any other branch will be rejected
+
+# Get the pushed branch name
+oldrev=$(git rev-parse $1)
+newrev=$(git rev-parse $2)
+refname="$3"
+while read oldrev newrev refname; do
+    current_branch=$refname
+    short_current_branch="$(echo $current_branch | sed 's/refs\/heads\///g')"
+done
+
+# Check if push to the configured branch
+if [ "$short_current_branch" != $GPTD_GIT_WORKING_BRANCH ]; then
+  echo
+  echo "Prevented push to $short_current_branch branch."
+  echo "Push is accepted only to $GPTD_GIT_WORKING_BRANCH branch."
+  echo
+  exit 1
+fi
+
+# Get live repository status
+git_live_status=$(cd $GIT_DIR"/.." ; env -i git status --porcelain)
+
+if [ -z "$git_live_status" ]; then
+    echo
+    echo "Live repository clean, push accepted."
+else
+    echo
+    echo "Live repository not clean."
+    echo "Commiting live changes..."
+
+    cd $GIT_DIR"/.."
+    env -i git add -A
+    env -i git -c user.email="$GPTD_GIT_USER_EMAIL" -c user.name="$GPTD_GIT_USER_NAME" commit -m "[autocommit]" --quiet
+
+    echo "Done"
+    echo
+    echo "Remote contains work that you do not have locally."
+    echo "Pull before pushing again."
+    echo
+    exit 1
+fi
