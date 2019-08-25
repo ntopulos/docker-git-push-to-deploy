@@ -41,7 +41,7 @@ COPY git /home/git-push-to-deploy
 RUN chmod +x /docker-entrypoint.sh /home/git-push-to-deploy/hooks/* ; \
     chown -R www-data:www-data /home/git-push-to-deploy
 
-# USER www-data
+USER www-data
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
