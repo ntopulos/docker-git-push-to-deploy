@@ -116,4 +116,5 @@ echo
 
 - Do **not** expose the `2222` SSH port on your server, its access must be restricted to the server itself.
 - This image was primarily designed to work with nginx-related deployment, thus the ownership of the mounted content is set to `www-data:www-data`.
+- The optional deploy script will only run after the first `push`. If needed, run your script manually after the initial setup.
 - This image brings together the scripts from [git-push-to-deploy](https://github.com/ntopulos/git-push-to-deploy), and simplifies the overall method by using a git version that allows to push to a none-bare repository.
