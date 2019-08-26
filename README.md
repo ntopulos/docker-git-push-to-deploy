@@ -103,7 +103,7 @@ Deploy script example with docker:
 
 echo
 echo "Updating dependencies"
-su-exec root docker exec example_name-php_1 sh -c "cd /var/www/html; composer udpate"
+su-exec root docker exec example_name-php_1 sh -c "cd /var/www/html; composer update"
 echo
 ```
 
