@@ -86,7 +86,6 @@ Example of a `Dockerfile` adding Docker to the base image:
 
 ```Dockerfile
 FROM ntopulos/git-push-to-deploy:latest
-
 RUN apk add --no-cache docker=18.09.8-r0
 ```
 
@@ -103,7 +102,7 @@ Deploy script example with docker:
 #!/bin/sh
 
 echo
-echo "Doing something..."
+echo "Updating dependencies"
 su-exec root docker exec example_name-php_1 sh -c "cd /var/www/html; composer udpate"
 echo
 ```
