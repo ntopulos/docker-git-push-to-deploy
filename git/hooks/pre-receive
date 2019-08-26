@@ -13,7 +13,7 @@ while read oldrev newrev refname; do
 done
 
 # Check if push to the configured branch
-if [ "$short_current_branch" != $GPTD_GIT_WORKING_BRANCH ]; then
+if [ "$short_current_branch" != "$GPTD_GIT_WORKING_BRANCH" ]; then
   echo
   echo "Prevented push to $short_current_branch branch."
   echo "Push is accepted only to $GPTD_GIT_WORKING_BRANCH branch."
@@ -30,7 +30,7 @@ if [ -z "$git_live_status" ]; then
 else
     echo
     echo "Live repository not clean."
-    echo "Commiting live changes..."
+    echo "Committing live changes..."
 
     cd $GIT_DIR"/.."
     env -i git add -A

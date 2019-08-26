@@ -12,4 +12,5 @@ then
     . $deploy_script
 else
     echo "No deploy script"
+    echo
 fi

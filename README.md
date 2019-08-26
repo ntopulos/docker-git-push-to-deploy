@@ -12,7 +12,11 @@ The git repository automatically commits its modification before accepting a pus
 **Warning:** This container should **only run on a remote environment**, not in your development environment as it accesses and modifies the git repository of its mounted directory.
 
 1. Setup your remote docker environment.
-2. The directory that will be mounted by this tool and where the app will be deployed should initially be empty and **must not** be a git repository.
+2. The directory that will be mounted by this tool and where the app will be deployed can be:
+   - empty | not empty
+   - a git repository | not a git repository
+
+   In any case, new files will be automatically committed on containers launch.
 
 Example of `docker-compose.yml`:
 
@@ -40,8 +44,7 @@ Example of a `deploy-script.sh` from the `docker-compose.yml` above:
 #!/bin/sh
 
 echo
-echo "Updating dependencies..."
-composer update
+echo "Doing something..."
 echo
 ```
 
@@ -73,6 +76,37 @@ To deploy with git to the remote Docker container, we use an SSH tunnel through 
 
        git remote add production GitPushToDeploy:/home/repository
 
+## Deploy script
+
+As described in above in the `docker-compose.yml` example, a deploy script can be automatically executed after a push.
+
+Often such a script needs to execute commands on other containers, therefore it needs access to docker which is not provided in the image but can it be added by building your own image.
+
+Example of a `Dockerfile` adding Docker to the base image:
+
+```Dockerfile
+FROM ntopulos/git-push-to-deploy:latest
+
+RUN apk add --no-cache docker=18.09.8-r0
+```
+
+Add the UNIX socket to the `docker-composer.yml`:
+
+```yaml
+volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+```
+
+Deploy script example with docker:
+
+```sh
+#!/bin/sh
+
+echo
+echo "Doing something..."
+su-exec root docker exec example_name-php_1 sh -c "cd /var/www/html; composer udpate"
+echo
+```
 
 ## Requirements
 

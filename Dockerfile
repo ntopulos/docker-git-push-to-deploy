@@ -1,9 +1,10 @@
 FROM alpine:3.10
 
-# Default configuration
+# Defaults
 ENV GPTD_GIT_WORKING_BRANCH=master
 ENV GPTD_GIT_USER_NAME=githook
 ENV GPTD_GIT_USER_EMAIL=auto@commit
+
 
 # Packages
 RUN apk add --no-cache \
@@ -26,10 +27,17 @@ WORKDIR /home/repository
 
 # SSHD
 # ssh-keygen -A generates all necessary host keys (rsa, dsa, ecdsa, ed25519) at default location.
-RUN mkdir /root/.ssh \
-    && chmod 0700 /root/.ssh \
-    && ssh-keygen -A \
-    && sed -i s/^#PermitEmptyPasswords\ no/PermitEmptyPasswords\ yes/ /etc/ssh/sshd_config
+# Default ENV must me written for sshd through which git hooks will be run.
+RUN mkdir /root/.ssh; \
+    chmod 0700 /root/.ssh; \
+    ssh-keygen -A; \
+    sed -i s/^#PermitEmptyPasswords\ no/PermitEmptyPasswords\ yes/ /etc/ssh/sshd_config; \
+    sed -i s/^#PermitUserEnvironment\ no/PermitUserEnvironment\ yes/ /etc/ssh/sshd_config; \
+    mkdir /home/www-data/.ssh; \
+    echo "GPTD_GIT_WORKING_BRANCH=master" >> /home/www-data/.ssh/environment; \
+    echo "GPTD_GIT_USER_NAME=githook" >> /home/www-data/.ssh/environment; \
+    echo "GPTD_GIT_USER_EMAIL=auto@commit" >> /home/www-data/.ssh/environment; \
+    chown -R www-data:www-data /home/www-data
 
 # Entrypoint and scripts
 COPY docker-entrypoint.sh /docker-entrypoint.sh
