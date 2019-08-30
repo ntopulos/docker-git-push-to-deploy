@@ -102,8 +102,8 @@ Deploy script example with docker:
 #!/bin/sh
 
 echo
-echo "Updating dependencies"
-su-exec root docker exec example_name-php_1 sh -c "cd /var/www/html; composer update"
+echo "Checking dependencies"
+su-exec root docker exec docker_php_1 sh -c "composer install --no-interaction --no-dev --prefer-dist"
 echo
 ```
 
