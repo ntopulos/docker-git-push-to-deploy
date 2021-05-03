@@ -1,4 +1,4 @@
-FROM alpine:3.10
+FROM alpine:3.13.5
 
 # Defaults
 ENV GPTD_GIT_WORKING_BRANCH=main
@@ -8,10 +8,10 @@ ENV GPTD_GIT_USER_EMAIL=auto@commit
 
 # Packages
 RUN apk add --no-cache \
-        git=2.22.0-r0 \
-        openssh=8.0_p1-r0 \
-        openrc=0.41.2-r1 \
-        su-exec=0.2-r0; \
+        git=2.30.2-r0 \
+        openssh=8.4_p1-r3 \
+        openrc=0.42.1-r19 \
+        su-exec=0.2-r1; \
     chmod u+s /sbin/su-exec
 
 # Ensure www-data user exists
