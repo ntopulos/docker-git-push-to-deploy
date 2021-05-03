@@ -17,7 +17,7 @@ fi
 cd $repository_path
 
 # Create branch and checkout if needed
-if [ "$GPTD_GIT_WORKING_BRANCH" != "master" ]; then
+if [ "$GPTD_GIT_WORKING_BRANCH" != "main" ]; then
     current_branch=$(git -C $repository_path branch | sed -n -e 's/^\* \(.*\)/\1/p')
     if [ "current_branch" != "$GPTD_GIT_WORKING_BRANCH" ]; then
         git checkout -b $GPTD_GIT_WORKING_BRANCH

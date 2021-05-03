@@ -1,7 +1,7 @@
 FROM alpine:3.10
 
 # Defaults
-ENV GPTD_GIT_WORKING_BRANCH=master
+ENV GPTD_GIT_WORKING_BRANCH=main
 ENV GPTD_GIT_USER_NAME=githook
 ENV GPTD_GIT_USER_EMAIL=auto@commit
 
@@ -34,7 +34,7 @@ RUN mkdir /root/.ssh; \
     sed -i s/^#PermitEmptyPasswords\ no/PermitEmptyPasswords\ yes/ /etc/ssh/sshd_config; \
     sed -i s/^#PermitUserEnvironment\ no/PermitUserEnvironment\ yes/ /etc/ssh/sshd_config; \
     mkdir /home/www-data/.ssh; \
-    echo "GPTD_GIT_WORKING_BRANCH=master" >> /home/www-data/.ssh/environment; \
+    echo "GPTD_GIT_WORKING_BRANCH=main" >> /home/www-data/.ssh/environment; \
     echo "GPTD_GIT_USER_NAME=githook" >> /home/www-data/.ssh/environment; \
     echo "GPTD_GIT_USER_EMAIL=auto@commit" >> /home/www-data/.ssh/environment; \
     chown -R www-data:www-data /home/www-data
